@@ -16,10 +16,8 @@ JIS_OLD_KANJI = (
     "罐,勸,觀,歸,犧,擧,狹,驅,莖,經,繼,缺,劍,檢,顯,廣,鑛,碎,劑,參,慘,絲,辭,舍,壽,澁,肅,將,證,乘,疊,孃,觸,寢,圖,穗,樞,齊,攝,戰,潛,雙,莊,裝,藏,續,體,臺,澤,膽,"
     "彈,蟲,廳,鎭,點,燈,盜,獨,貳,霸,賣,髮,祕,佛,變,辯,豐,飜,默,與,譽,謠,覽,獵,勵,齡,勞,壓,爲,隱,衞,鹽,毆,穩,畫,壞,殼,嶽,卷,關,顏,僞,舊,峽,曉,勳,惠,螢,鷄,縣,"
     "險,獻,驗,效,號,濟,册,棧,贊,齒,濕,寫,收,獸,處,稱,奬,淨,繩,讓,囑,愼,粹,隨,數,靜,專,踐,纖,壯,搜,總,臟,墮,帶,瀧,擔,團,遲,晝,聽,遞,轉,當,稻,讀,惱,拜,麥,拔,"
-    "濱,竝,辨,舖,襃,萬,譯,豫,搖,來,龍,壘,隸,戀,樓,鰺,鶯,蠣,攪,竈,灌,諫,頸,礦,蘂,靱,賤,壺,礪,檮,濤,邇,蠅,檜,儘,藪,籠,彌".split(
-        ","
-    )
-)
+    "濱,竝,辨,舖,襃,萬,譯,豫,搖,來,龍,壘,隸,戀,樓,鰺,鶯,蠣,攪,竈,灌,諫,頸,礦,蘂,靱,賤,壺,礪,檮,濤,邇,蠅,檜,儘,藪,籠,彌"
+    .split(","))
 
 JIS_NEW_KANJI = (
     "亜,囲,壱,栄,駅,応,桜,仮,会,懐,覚,楽,陥,歓,気,戯,拠,挟,区,径,渓,軽,芸,倹,圏,権,厳,恒,国,斎,雑,蚕,残,児,実,釈,従,縦,叙,焼,条,剰,壌,醸,真,尽,酔,髄,声,窃,"
@@ -27,10 +25,8 @@ JIS_NEW_KANJI = (
     "缶,勧,観,帰,犠,挙,狭,駆,茎,経,継,欠,剣,検,顕,広,鉱,砕,剤,参,惨,糸,辞,舎,寿,渋,粛,将,証,乗,畳,嬢,触,寝,図,穂,枢,斉,摂,戦,潜,双,荘,装,蔵,続,体,台,沢,胆,"
     "弾,虫,庁,鎮,点,灯,盗,独,弐,覇,売,髪,秘,仏,変,弁,豊,翻,黙,与,誉,謡,覧,猟,励,齢,労,圧,為,隠,衛,塩,殴,穏,画,壊,殻,岳,巻,関,顔,偽,旧,峡,暁,勲,恵,蛍,鶏,県,"
     "険,献,験,効,号,済,冊,桟,賛,歯,湿,写,収,獣,処,称,奨,浄,縄,譲,嘱,慎,粋,随,数,静,専,践,繊,壮,捜,総,臓,堕,帯,滝,担,団,遅,昼,聴,逓,転,当,稲,読,悩,拝,麦,抜,"
-    "浜,並,弁,舗,褒,万,訳,予,揺,来,竜,塁,隷,恋,楼,鯵,鴬,蛎,撹,竃,潅,諌,頚,砿,蕊,靭,賎,壷,砺,梼,涛,迩,蝿,桧,侭,薮,篭,弥".split(
-        ","
-    )
-)
+    "浜,並,弁,舗,褒,万,訳,予,揺,来,竜,塁,隷,恋,楼,鯵,鴬,蛎,撹,竃,潅,諌,頚,砿,蕊,靭,賎,壷,砺,梼,涛,迩,蝿,桧,侭,薮,篭,弥"
+    .split(","))
 
 cache_prefecture = {}
 cache_towns = {}
@@ -46,15 +42,14 @@ def get_prefectures(endpoint: str) -> dict:
     return cache_prefecture[endpoint_url]
 
 
-def get_prefecture_regexes(prefecture_names: list, omit_mode: bool = False) -> list:
+def get_prefecture_regexes(prefecture_names: list,
+                           omit_mode: bool = False) -> list:
     prefecture_regex = "([都道府県])"
     for prefecture_name in prefecture_names:
         _prefecture_name = re.sub(f"{prefecture_regex}$", "", prefecture_name)
-        reg = (
-            re.compile(f"^{_prefecture_name}{prefecture_regex}")
-            if not omit_mode
-            else re.compile(f"^{_prefecture_name}{prefecture_regex}?")
-        )
+        reg = (re.compile(f"^{_prefecture_name}{prefecture_regex}")
+               if not omit_mode else
+               re.compile(f"^{_prefecture_name}{prefecture_regex}?"))
         yield prefecture_name, reg
 
 
@@ -72,22 +67,25 @@ def get_city_regexes(pref: str, cities: list) -> list:
 def getTowns(pref: str, city: str, endpoint: str) -> list:
     global cache_towns
 
-    town_endpoint = "/".join(
-        [
-            endpoint,
-            urllib.parse.quote(pref),
-            urllib.parse.quote(city),
-        ]
-    )
+    town_endpoint = "/".join([
+        endpoint,
+        urllib.parse.quote(pref),
+        urllib.parse.quote(city),
+    ])
 
     endpoint_url = f"{town_endpoint}.json"
     if endpoint_url not in cache_towns:
-        cache_towns[endpoint_url] = list(json.loads((api_fetch(endpoint_url)).text))
+        cache_towns[endpoint_url] = list(
+            json.loads((api_fetch(endpoint_url)).text))
 
     return cache_towns[endpoint_url]
 
 
-def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
+def get_town_regexes(pref: str,
+                     city: str,
+                     endpoint: str,
+                     verbose=False) -> list:
+
     def get_normalized_chome_regex(match_value: str) -> str:
         regexes = [re.sub("(丁目?|番([町丁])|条|軒|線|([のノ])町|地割)", "", match_value)]
 
@@ -113,7 +111,8 @@ def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
     def towns_length(api_town: dict) -> int:
         # 大字で始まる場合、優先度を低く設定する。
         town_len = len(api_town["town"])
-        town_len = town_len - 2 if str(api_town["town"]).startswith("大字") else town_len
+        town_len = town_len - 2 if str(
+            api_town["town"]).startswith("大字") else town_len
         return town_len
 
     def is_kanji_number_follewed_by_cho(target_town_name: str) -> bool:
@@ -130,7 +129,8 @@ def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
 
     # 京都かどうかを判定
     is_kyoto = re.match("^京都市", city) is not None
-    print(is_kyoto, city)
+    if verbose:
+        print(is_kyoto, city)
     # 町丁目に「町」が含まれるケースへの対応
     # 通常は「○○町」のうち「町」の省略を許容し同義語として扱うが、まれに自治体内に「○○町」と「○○」が共存しているケースがある。
     # この場合は町の省略は許容せず、入力された住所は書き分けられているものとして正規化を行う。
@@ -144,18 +144,13 @@ def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
 
         # 「愛知県名古屋市瑞穂区十六町1丁目」など漢数字を含むケースは、曖昧処理から除外
         if re.match("[壱一二三四五六七八九十百千万]+町", originalTown) is None:
-            townAddr = re.sub(
-                "(?!^町)町", "", originalTown
-            )  # NOTE: 冒頭の「町」は明らかに省略するべきではないので、除外
+            townAddr = re.sub("(?!^町)町", "",
+                              originalTown)  # NOTE: 冒頭の「町」は明らかに省略するべきではないので、除外
 
-        if (
-            not is_kyoto
-            and townAddr not in api_towns_set
-            and f"大字{townAddr}" not in api_towns_set
-            and not is_kanji_number_follewed_by_cho(  # 大字は省略されるため、大字〇〇と〇〇町がコンフリクトする。このケースを除外
-                originalTown
-            )
-        ):
+        if (not is_kyoto and townAddr not in api_towns_set
+                and f"大字{townAddr}" not in api_towns_set and
+                not is_kanji_number_follewed_by_cho(  # 大字は省略されるため、大字〇〇と〇〇町がコンフリクトする。このケースを除外
+                    originalTown)):
             # エイリアスとして町なしのパターンを登録
             dict_town = town.copy()
             dict_town["originalTown"] = town["town"]
@@ -173,8 +168,7 @@ def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
         _town = re.sub("大?字", "(大?字)?", _town)
 
         for replace_town in re.finditer(
-            "([壱一二三四五六七八九十]+)(丁目?|番([町丁])|条|軒|線|([のノ])町|地割)", _town
-        ):
+                "([壱一二三四五六七八九十]+)(丁目?|番([町丁])|条|軒|線|([のノ])町|地割)", _town):
             _town = re.sub(
                 replace_town.group(),
                 get_normalized_chome_regex(replace_town.group()),
@@ -194,11 +188,11 @@ def get_town_regexes(pref: str, city: str, endpoint: str) -> list:
 
 
 def replace_addr(addr: str) -> str:
+
     def replace_1(match_value: str) -> str:
         for num in list(re.finditer("([0-9]+)", match_value)):
             match_value = match_value.replace(
-                num.group(), kanjize.int2kanji(int(num.group()))
-            )
+                num.group(), kanjize.int2kanji(int(num.group())))
         return match_value
 
     addr = re.sub("^-", "", addr)
@@ -206,7 +200,8 @@ def replace_addr(addr: str) -> str:
     patterns = [
         (re.compile("([0-9]+)(丁目)"), lambda m: replace_1(m.group())),
         (
-            re.compile("(([0-9〇一二三四五六七八九十百千]+)(番地?)([0-9〇一二三四五六七八九十百千]+)号)\\s*(.+)"),
+            re.compile(
+                "(([0-9〇一二三四五六七八九十百千]+)(番地?)([0-9〇一二三四五六七八九十百千]+)号)\\s*(.+)"),
             lambda m: "{} {}".format(m.group(1), m.group(5)),
         ),
         (
@@ -225,7 +220,8 @@ def replace_addr(addr: str) -> str:
         ),
         (re.compile("([0-9〇一二三四五六七八九十百千]+)-"), lambda m: kan2num(m.group())),
         (re.compile("-([0-9〇一二三四五六七八九十百千]+)"), lambda m: kan2num(m.group())),
-        (re.compile("-[^0-9]+([0-9〇一二三四五六七八九十百千]+)"), lambda m: kan2num(m.group())),
+        (re.compile("-[^0-9]+([0-9〇一二三四五六七八九十百千]+)"),
+         lambda m: kan2num(m.group())),
         (re.compile("([0-9〇一二三四五六七八九十百千]+)$"), lambda m: kan2num(m.group())),
     ]
 
@@ -289,9 +285,11 @@ def to_regex(value: str) -> str:
     return value
 
 
-def normalize_town_name(
-    addr: str, pref: str, city: str, endpoint: str
-) -> Optional[Dict[str, str]]:
+def normalize_town_name(addr: str,
+                        pref: str,
+                        city: str,
+                        endpoint: str,
+                        verbose=False) -> Optional[Dict[str, str]]:
     # アドレスの前後の空白を削除する
     addr = addr.strip()
 
@@ -310,18 +308,19 @@ def normalize_town_name(
                 regex = re.compile(f"{regex_prefix}{pattern}")
                 match = regex.match(addr)
                 if match:
-                    print(
-                        pref,
-                        city,
-                        town,
-                        addr,
-                        regex.pattern,
-                        addr[len(match.group()) :],
-                    )
+                    if verbose:
+                        print(
+                            pref,
+                            city,
+                            town,
+                            addr,
+                            regex.pattern,
+                            addr[len(match.group()):],
+                        )
                     # 正規表現にマッチした場合、辞書型で町の名前、住所、緯度、経度を返す
                     return {
                         "town": town,
-                        "addr": addr[len(match.group()) :],
+                        "addr": addr[len(match.group()):],
                         "lat": lat,
                         "lng": lng,
                     }
@@ -331,12 +330,15 @@ def normalize_town_name(
                 if match:
                     # 正規表現にマッチした場合、辞書型で町の名前、住所、緯度、経度を返す
                     return {
-                        "town": town,
-                        "addr": re.search(pattern, match.group()).group()
-                        if len(addr) == len(match.group())
-                        else addr[len(match.group()) :],
-                        "lat": lat,
-                        "lng": lng,
+                        "town":
+                        town,
+                        "addr":
+                        re.search(pattern, match.group()).group() if len(addr)
+                        == len(match.group()) else addr[len(match.group()):],
+                        "lat":
+                        lat,
+                        "lng":
+                        lng,
                     }
 
     # 正規表現にマッチしなかった場合は None を返す
