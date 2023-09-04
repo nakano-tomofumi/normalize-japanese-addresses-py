@@ -237,12 +237,9 @@ def jis_kanji_regexes() -> Generator[Tuple[Pattern, str, str], None, None]:
         yield regex, old_kanji, new_kanji
 
 
-def pre_jis_kanji_regexes() -> List[Pattern, str, str]:
-    return [[re.compile(reg), old_kanji, new_kanji]
-            for reg, old_kanji, new_kanji in jis_kanji_regexes()]
-
-
-JIS_KANJI_PATTERNS = pre_jis_kanji_regexes()
+JIS_KANJI_PATTERNS = [[
+    re.compile(f"{old_kanji}|{new_kanji}"), old_kanji, new_kanji
+] for old_kanji, new_kanji in zip(JIS_OLD_KANJI, JIS_NEW_KANJI)]
 
 
 def jis_kanji_to_both_forms(value: str) -> str:
