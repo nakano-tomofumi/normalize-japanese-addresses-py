@@ -146,6 +146,8 @@ def get_town_regexes(pref: str,
         if re.match("[壱一二三四五六七八九十百千万]+町", originalTown) is None:
             townAddr = re.sub("(?!^町)町", "",
                               originalTown)  # NOTE: 冒頭の「町」は明らかに省略するべきではないので、除外
+        else:
+            townAddr = originalTown
 
         if (not is_kyoto and townAddr not in api_towns_set
                 and f"大字{townAddr}" not in api_towns_set and
