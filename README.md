@@ -1,19 +1,16 @@
-## @Taka710/normalize-japanese-addresses-py
-[![PyPI](https://img.shields.io/pypi/l/normalize_japanese_addresses.svg)](https://pypi.python.org/pypi/normalize_japanese_addresses/)
-[![PyPI](https://img.shields.io/pypi/v/normalize_japanese_addresses.svg)](https://pypi.python.org/pypi/normalize_japanese_addresses/)
+## @nakano-tomofumi/normalize-japanese-addresses-py
 
-オープンソースの住所正規化ライブラリです。
-
-経産省の [IMI コンポーネントツール](https://info.gbiz.go.jp/tools/imi_tools/)のジオコーディングの仕組みから  
-インスピレーションをうけて開発された [@geolonia/normalize-japanese-addresses](https://github.com/geolonia/normalize-japanese-addresses)を  
-Pythonで利用できるように書き直したものです。
+オープンソースの住所正規化ライブラリ(@Taka710/normalize-japanese-addresses-py)を多少高速化、修正したものです。
+詳しくは、オリジナルのドキュメントを参照ください。
 
 ## 使い方
-pypiで公開していますので、pipコマンドでインストールしてください。
+pypiで公開していませんので、つぎのpipコマンドでインストールしてください。
 
 ```
-pip install normalize-japanese-addresses
+pip install pip install git+https://github.com/nakano-tomofumi/normalize-japanese-addresses-py.git
 ```
+
+すでに、pypi版をインストールしている場合、レポジトリ名が被っているので、uninstall して git のキャッシュもクリアする必要があります。
 
 住所を正規化します。  
 
